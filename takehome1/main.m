@@ -11,7 +11,7 @@ theta_star = @(t) 2;
 omega = @(t) sin(t);
 
 % disturbance signal
-d = @(t) 0.5*sin(20*t);
+d = @(t) 0;
 
 % Initial condition
 theta0 = 0;
@@ -45,4 +45,4 @@ plot(sol.x, sol.y, 'DisplayName',['g = ', num2str(g)])
 end
 
 hold off
-legend
+legend(Location="southeast")
