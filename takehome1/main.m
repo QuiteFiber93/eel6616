@@ -20,7 +20,7 @@ theta0 = 0;
 
 figure
 hold on
-for g = logspace(-1, 0, 3)
+for g = [0.1, 1, 5]
 
 % Creating function to be estimated
 estimator = @(t, theta) estimate_dynamics(t, theta, omega(t), d(t), theta_star(t), g);
@@ -32,7 +32,21 @@ plot(sol.x, sol.y, 'DisplayName',['g = ', num2str(g)])
 
 end
 
-for g = logspace(-1, 0, 3)*5
+title("w(t) = sin(t) d(t) = 0")
+hold off
+legend(Location="southeast")
+
+% disturbance signal
+d = @(t) 0.5*sin(20*t);
+
+% Initial condition
+theta0 = 0;
+
+% Estimator gain
+
+figure
+hold on
+for g = [0.1, 1, 5]
 
 % Creating function to be estimated
 estimator = @(t, theta) estimate_dynamics(t, theta, omega(t), d(t), theta_star(t), g);
@@ -42,7 +56,8 @@ sol = ode45(estimator, tspan, theta0);
 
 plot(sol.x, sol.y, 'DisplayName',['g = ', num2str(g)])
 
-end
 
+end
+title("w(t) = sin(t) d(t) = 0.5*sin(20*t)")
 hold off
 legend(Location="southeast")
