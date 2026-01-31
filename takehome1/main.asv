@@ -2,7 +2,7 @@
 clear; clc; close all;
 
 % Used for ode45
-tspan = [0:0.1:60];
+tspan = [0, 75];
 
 % True mass of the system
 theta_star = @(t) 2;
@@ -27,9 +27,10 @@ for g = [0.1, 0.5, 1, 5]
 % Creating function to be estimated
 estimator = @(t, theta) gradient_estimator(t, theta, omega(t), d(t), theta_star(t), g);
 
-[t, theta] = ode45(estimator, tspan, theta0, opt);
+sol = ode45(estimator, tspan, theta0, opt);
 
-plot(t, theta, 'DisplayName',['g = ', num2str(g)])
+
+plot(sol.x, sol.y, 'DisplayName',['g = ', num2str(g)])
 
 end
 
@@ -55,9 +56,10 @@ for g = [0.1, 0.5, 1, 5]
 % Creating function to be estimated
 estimator = @(t, theta) gradient_estimator(t, theta, omega(t), d(t), theta_star(t), g);
 
-[t, theta] = ode45(estimator, tspan, theta0, opt);
+sol = ode45(estimator, tspan, theta0);
 
-plot(t, theta, 'DisplayName',['g = ', num2str(g)])
+
+plot(sol.x, sol.y, 'DisplayName',['g = ', num2str(g)])
 
 
 end
@@ -72,7 +74,7 @@ legend(Location="southeast")
 clear; clc; close all;
 
 % Used for ode45
-tspan = [0:0.1:60];
+tspan = [0, 100];
 opt = odeset('RelTol', 1E-6, 'AbsTol',1E-7);
 
 % True mass of the system
@@ -94,15 +96,16 @@ for g = [0.1, 1, 5]
 % Creating function to be estimated
 estimator = @(t, theta) gradient_estimator(t, theta, omega(t), d(t), theta_star(t), g);
 
-[t, theta] = ode45(estimator, tspan, theta0, opt);
+sol = ode45(estimator, tspan, theta0, opt);
 
-plot(t, theta, 'DisplayName',['g = ', num2str(g)])
+
+plot(sol.x, sol.y, 'DisplayName',['g = ', num2str(g)])
 
 end
 
-plot(t, theta_star(t), 'k', 'DisplayName','True')
+plot(sol.x, theta_star(sol.x), 'k', 'DisplayName','True')
 
-title("Gradient Estimator with No Disturbance")
+title("w(t) = sin(t) d(t) = 0")
 xlabel('t')
 ylabel('\theta')
 hold off
@@ -123,14 +126,15 @@ for g = [0.1, 1, 5]
 % Creating function to be estimated
 estimator = @(t, theta) gradient_estimator(t, theta, omega(t), d(t), theta_star(t), g);
 
-[t, theta] = ode45(estimator, tspan, theta0, opt);
+sol = ode45(estimator, tspan, theta0);
 
-plot(t, theta, 'DisplayName',['g = ', num2str(g)])
+
+plot(sol.x, sol.y, 'DisplayName',['g = ', num2str(g)])
 
 
 end
-plot(t, theta_star(t), 'k', 'DisplayName','True')
-title("Gradient Estimator with Sinusoidal Disturbance")
+plot(sol.x, theta_star(sol.x), 'k', 'DisplayName','True')
+title("w(t) = sin(t) d(t) = 0.5*sin(20*t)")
 hold off
 legend(Location="southeast")
 
