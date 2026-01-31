@@ -141,7 +141,7 @@ tspan = [0, 50];
 opt = odeset('RelTol', 1E-6, 'AbsTol',1E-7);
 
 % True mass of the system
-theta_star = @(t) 0;
+theta_star = @(t) 2;
 
 % omega signal
 omega = @(t) sin(t);
@@ -151,7 +151,27 @@ d = @(t) 0;
 
 % Initial condition
 theta0 = 0;
-P0 = 0;
 
-figure
-hold on 
+estimator = @(t, x) recursive_ls(t, x, omega(t), 0, theta_star(t) * omega(t) + d(t));
+
+% figure
+% hold on
+% P0 = 2;
+% sol = ode45(estimator, tspan, [theta0; P0], opt);
+% plot(sol.x, sol.y(1, :))
+% 
+% P0 = 10;
+% sol = ode45(estimator, tspan, [theta0; P0], opt);
+% plot(sol.x, sol.y(1, :))
+% hold off
+
+figure 
+hold on
+for P0 = [2, 10]
+    sol = ode45(estimator, tspan, [theta0; P0], opt);
+    plot(sol.x, sol.y(1, :), 'DisplayName',['P0 = ', num2str(P0)])
+end
+plot(sol.x, theta_star(sol.x), 'k', 'DisplayName','True')
+hold off
+
+legend('Location','east')
