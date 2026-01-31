@@ -193,4 +193,36 @@ hold off
 title('Least Squares w(t) = sin(t) d(t) = 0.5sin(20t)')
 legend('Location','east')
 
+% TODO: Implement forgetting
+
 %% Part 4
+clear; clc; close all;
+% Used for ode45
+tspan = [0, 100];
+opt = odeset('RelTol', 1E-6, 'AbsTol',1E-7);
+
+% True mass of the system
+theta_star = @(t) 1 + 0.5*sin(0.5*t);
+
+% omega signal
+omega = @(t) sin(t);
+
+% disturbance signal
+d = @(t) 0;
+
+% Initial condition
+theta0 = theta_star(0)*omega(0) + d(0);
+
+estimator = @(t, x) recursive_ls(t, x, omega(t), 0, theta_star(t) * omega(t) + d(t));
+
+figure 
+hold on
+for P0 = [2, 10]
+    sol = ode45(estimator, tspan, [theta0; P0], opt);
+    plot(sol.x, sol.y(1, :), 'DisplayName',['P0 = ', num2str(P0)])
+end
+
+plot(sol.x, theta_star(sol.x), 'k', 'DisplayName','True')
+hold off
+title('Least Squares w(t) = sin(t) d(t) = 0')
+legend('Location','east')
