@@ -213,7 +213,7 @@ d = @(t) 0;
 % Initial condition
 theta0 = theta_star(0)*omega(0) + d(0);
 
-estimator = @(t, x) recursive_ls(t, x, omega(t), 0, theta_star(t) * omega(t) + d(t));
+estimator = @(t, x) recursive_ls(t, x, omega(t), 0.0, theta_star(t) * omega(t) + d(t));
 
 figure 
 hold on
