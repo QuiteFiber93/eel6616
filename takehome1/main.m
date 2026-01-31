@@ -2,7 +2,7 @@
 clear; clc; close all;
 
 % Used for ode45
-tspan = [0, 50];
+tspan = [0, 100];
 
 % True mass of the system
 theta_star = @(t) 2;
@@ -71,7 +71,7 @@ legend(Location="southeast")
 clear; clc; close all;
 
 % Used for ode45
-tspan = [0, 50];
+tspan = [0, 100];
 opt = odeset('RelTol', 1E-6, 'AbsTol',1E-7);
 
 % True mass of the system
@@ -192,3 +192,5 @@ yline(theta_star(sol.x), 'k', 'DisplayName','True')
 hold off
 title('Least Squares w(t) = sin(t) d(t) = 0.5sin(20t)')
 legend('Location','east')
+
+%% Part 4
