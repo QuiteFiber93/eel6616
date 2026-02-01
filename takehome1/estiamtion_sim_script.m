@@ -1,15 +1,11 @@
-clear; clc; 
+clear; clc;
 gradientEstimator = "gradient_estimator";
-open_system(gradientEstimator)
-
 gains = [0.1, 0.5, 1, 5];
-results = cell(1, length(gains));
-figure(1)
-hold on
-for n = 1:length(gains)
-    % set_param([gradientEstimator ".slx/-g"], '-g', num2str(-gains(n)));
-    results{n} = sim(gradientEstimator);
-    plot(results{n}.tout, results{n}.yout)
-end
 
-hold off
+for n = 1:length(gains)
+    close_system(gradientEstimator, 0);
+    load_system(gradientEstimator);
+    set_param('gradient_estimator/g', 'Gain', num2str(-gains(n)));
+    set_param('gradient_estimator/theta', 'SignalName', ['g = ', num2str(gains(n))]);
+    simOut = sim(gradientEstimator);
+end
