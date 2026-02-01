@@ -1,8 +1,8 @@
 %% Part 1
 clear; clc; close all;
-
+format default
 % Used for ode45
-tspan = [0, 75];
+tspan = [0:0.1:50];
 
 % True mass of the system
 theta_star = @(t) 2;
@@ -22,15 +22,19 @@ opt = odeset('RelTol', 1E-5, 'AbsTol',1E-6);
 figure
 hold on
 % Estimator gain
-for g = [0.1, 0.5, 1, 5]
+
+rmse_vals = [];
+g_vals =  [0.1, 1, 5];
+for g = g_vals
 
 % Creating function to be estimated
 estimator = @(t, theta) gradient_estimator(t, theta, omega(t), d(t), theta_star(t), g);
 
-sol = ode45(estimator, tspan, theta0, opt);
+[t, theta] = ode45(estimator, tspan, theta0, opt);
 
+plot(t, theta, 'DisplayName',['g = ', num2str(g)])
 
-plot(sol.x, sol.y, 'DisplayName',['g = ', num2str(g)])
+rmse_vals = [rmse_vals, rmse(theta, theta_star(t))];
 
 end
 
@@ -40,6 +44,10 @@ ylabel('\theta')
 title("Gradient Estimator with No Disturbance")
 hold off
 legend(Location="southeast")
+
+disp('With d(t) = 0')
+disp('=============')
+rmse_vals
 
 % disturbance signal
 d = @(t) 0.5*sin(20*t);
@@ -51,16 +59,18 @@ theta0 = theta_star(0)*omega(0) + d(0);
 
 figure
 hold on
-for g = [0.1, 0.5, 1, 5]
+rmse_vals = [];
+g_vals =  [0.1, 1, 5];
+for g = g_vals
 
 % Creating function to be estimated
 estimator = @(t, theta) gradient_estimator(t, theta, omega(t), d(t), theta_star(t), g);
 
-sol = ode45(estimator, tspan, theta0);
+[t, theta] = ode45(estimator, tspan, theta0, opt);
 
+plot(t, theta, 'DisplayName',['g = ', num2str(g)])
 
-plot(sol.x, sol.y, 'DisplayName',['g = ', num2str(g)])
-
+rmse_vals = [rmse_vals, rmse(theta, theta_star(t))];
 
 end
 yline(theta_star(0), 'DisplayName','True')
@@ -70,11 +80,15 @@ ylabel('\theta')
 hold off
 legend(Location="southeast")
 
+disp('With d(t) = 0.5sin(20t)')
+disp('=============')
+rmse_vals
+
 %% Part 2
 clear; clc; close all;
 
 % Used for ode45
-tspan = [0, 100];
+tspan = [0:0.1:60];
 opt = odeset('RelTol', 1E-6, 'AbsTol',1E-7);
 
 % True mass of the system
@@ -91,25 +105,31 @@ theta0 = theta_star(0)*omega(0) + d(0);
 
 figure
 hold on
-for g = [0.1, 1, 5]
+rmse_vals = [];
+g_vals =  [0.1, 1, 5];
+for g = g_vals
 
 % Creating function to be estimated
 estimator = @(t, theta) gradient_estimator(t, theta, omega(t), d(t), theta_star(t), g);
 
-sol = ode45(estimator, tspan, theta0, opt);
+[t, theta] = ode45(estimator, tspan, theta0, opt);
 
+plot(t, theta, 'DisplayName',['g = ', num2str(g)])
 
-plot(sol.x, sol.y, 'DisplayName',['g = ', num2str(g)])
-
+rmse_vals = [rmse_vals, rmse(theta, theta_star(t))];
 end
 
-plot(sol.x, theta_star(sol.x), 'k', 'DisplayName','True')
+plot(t, theta_star(t), 'k', 'DisplayName','True')
 
-title("w(t) = sin(t) d(t) = 0")
+title("Gradient Estimator with No Disturbance")
 xlabel('t')
 ylabel('\theta')
 hold off
 legend(Location="southeast")
+
+disp('With d(t) = 0')
+disp('=============')
+rmse_vals
 
 % disturbance signal
 d = @(t) 0.5*sin(20*t);
@@ -121,22 +141,27 @@ theta0 = theta_star(0)*omega(0) + d(0);
 
 figure
 hold on
-for g = [0.1, 1, 5]
+rmse_vals = [];
+g_vals =  [0.1, 1, 5];
+for g = g_vals
 
 % Creating function to be estimated
 estimator = @(t, theta) gradient_estimator(t, theta, omega(t), d(t), theta_star(t), g);
 
-sol = ode45(estimator, tspan, theta0);
+[t, theta] = ode45(estimator, tspan, theta0, opt);
 
+plot(t, theta, 'DisplayName',['g = ', num2str(g)])
 
-plot(sol.x, sol.y, 'DisplayName',['g = ', num2str(g)])
-
-
+rmse_vals = [rmse_vals, rmse(theta, theta_star(t))];
 end
-plot(sol.x, theta_star(sol.x), 'k', 'DisplayName','True')
-title("w(t) = sin(t) d(t) = 0.5*sin(20*t)")
+plot(t, theta_star(t), 'k', 'DisplayName','True')
+title("Gradient Estimator with Sinusoidal Disturbance")
 hold off
 legend(Location="southeast")
+
+disp('With d(t) = 0')
+disp('=============')
+rmse_vals
 
 %% Part 3
 clear; clc; close all;
@@ -168,7 +193,7 @@ end
 
 yline(theta_star(sol.x), 'k', 'DisplayName','True')
 hold off
-title('Least Squares w(t) = sin(t) d(t) = 0')
+title('Least Squares with no Disturbance or Forgetting')
 legend('Location','east')
 
 
@@ -195,7 +220,7 @@ end
 
 yline(theta_star(sol.x), 'k', 'DisplayName','True')
 hold off
-title('Least Squares w(t) = sin(t) d(t) = 0.5sin(20t)')
+title('Least Squares with Disturbance and No Forgetting')
 legend('Location','east')
 
 % TODO: Implement forgetting
@@ -229,5 +254,5 @@ end
 
 plot(sol.x, theta_star(sol.x), 'k', 'DisplayName','True')
 hold off
-title('Least Squares w(t) = sin(t) d(t) = 0')
+title('Least Squares with no Disturbance or Forgetting')
 legend('Location','east')
