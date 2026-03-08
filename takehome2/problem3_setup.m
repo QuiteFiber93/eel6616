@@ -26,12 +26,16 @@ stairs(theta_estimate.Time, theta_estimate.Data(:, 1), 'DisplayName', '\alpha_1 
 stairs(theta_estimate.Time, theta_estimate.Data(:, 2), 'DisplayName', '\beta_1 Estimate');
 hold off
 
+% True values
+yline(alpha_1, '--b', 'DisplayName','\alpha*_1')
+yline(beta_1, '--r', 'DisplayName','\beta*_1')
+
 xlabel('Time Steps')
 ylabel('Estimate')
 ylim([-1, 0.2])
 title('Parameter Estimates');
 
-legend('Location','best')
+legend('Location','east')
 grid
 
 nexttile;
@@ -45,6 +49,7 @@ grid
 
 figure
 t = tiledlayout(2, 1,'TileSpacing','tight','Padding','none');
+title(t, 'Parameter Estimate Error for Varied P(0)')
 nexttile;
 
 hold on
@@ -53,7 +58,7 @@ for coeff = [100, 1000, 10000]
     out = sim(modelname);
     theta_estimate = out.logsout.get('theta').Values;
     err = theta_estimate.Data - theta_star;
-    stairs(theta_estimate.Time, log(vecnorm(err, 2, 2).^2), 'DisplayName', ['P_0 = ', num2str(coeff), '\itI\rm'])
+    stairs(theta_estimate.Time, log(vecnorm(err, 2, 2).^2), 'DisplayName', ['P(0) = ', num2str(coeff), '\itI\rm'])
 end
 hold off
 
@@ -63,7 +68,7 @@ legend
 title('\lambda = 1')
 
 xlabel('Time Step')
-ylabel('log(Error Norm Squared)')
+ylabel('log(||\theta*(k) - \theta(k)||^2)')
 
 nexttile;
 lambda = 0.9;
@@ -74,7 +79,7 @@ for coeff = [100, 1000, 10000]
     out = sim(modelname);
     theta_estimate = out.logsout.get('theta').Values;
     err = theta_estimate.Data - theta_star;
-    stairs(theta_estimate.Time, log(vecnorm(err, 2, 2).^2), 'DisplayName', ['P_0 = ', num2str(coeff), '\itI\rm'])
+    stairs(theta_estimate.Time, log(vecnorm(err, 2, 2).^2), 'DisplayName', ['P(0) = ', num2str(coeff), '\itI\rm'])
 end
 hold off
 
@@ -82,3 +87,6 @@ set(gca, 'xtick', 0:25:100)
 grid
 legend
 title('\lambda = 0.9')
+
+xlabel('Time Step')
+ylabel('log(||\theta*(k) - \theta(k)||^2)')
