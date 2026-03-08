@@ -22,8 +22,10 @@ t = tiledlayout(2, 1,'TileSpacing','tight','Padding','none');
 nexttile;
 
 hold on
-stairs(theta_estimate.Time, theta_estimate.Data(:, 1), 'DisplayName', '\alpha_1 Estimate');
-stairs(theta_estimate.Time, theta_estimate.Data(:, 2), 'DisplayName', '\beta_1 Estimate');
+stairs(theta_estimate.Time, theta_estimate.Data(:, 1), ...
+    'DisplayName', '\alpha_1 Estimate');
+stairs(theta_estimate.Time, theta_estimate.Data(:, 2), ...
+    'DisplayName', '\beta_1 Estimate');
 hold off
 
 % True values
@@ -58,7 +60,8 @@ for coeff = [100, 1000, 10000]
     out = sim(modelname);
     theta_estimate = out.logsout.get('theta').Values;
     err = theta_estimate.Data - theta_star;
-    stairs(theta_estimate.Time, log(vecnorm(err, 2, 2).^2), 'DisplayName', ['P(0) = ', num2str(coeff), '\itI\rm'])
+    stairs(theta_estimate.Time, log(vecnorm(err, 2, 2).^2), ...
+        'DisplayName', ['P(0) = ', num2str(coeff), '\itI\rm'])
 end
 hold off
 
@@ -79,7 +82,8 @@ for coeff = [100, 1000, 10000]
     out = sim(modelname);
     theta_estimate = out.logsout.get('theta').Values;
     err = theta_estimate.Data - theta_star;
-    stairs(theta_estimate.Time, log(vecnorm(err, 2, 2).^2), 'DisplayName', ['P(0) = ', num2str(coeff), '\itI\rm'])
+    stairs(theta_estimate.Time, log(vecnorm(err, 2, 2).^2), ...
+        'DisplayName', ['P(0) = ', num2str(coeff), '\itI\rm'])
 end
 hold off
 

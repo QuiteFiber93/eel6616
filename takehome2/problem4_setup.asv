@@ -53,8 +53,7 @@ stairs(theta_estimate.Time, log(vecnorm(err, 2, 2).^2), ...
 grid
 xlabel('Time Step')
 ylabel('Log Error Norm')
-ylim([1.3, 1.5])
-title('All Time Steps')
+
 nexttile;
 
 stairs(theta_estimate.Time(end-999:end, :), log(vecnorm(err(end-999:end, :), 2, 2).^2), ...
@@ -63,7 +62,7 @@ stairs(theta_estimate.Time(end-999:end, :), log(vecnorm(err(end-999:end, :), 2, 
 grid
 xlabel('Time Step')
 ylabel('Log Error Norm')
-title('Last 1000 Time Steps')
+
 title(t, "Normalized Gradient Parameter Estimation Error Norm")
 
 % TODO:
@@ -74,21 +73,16 @@ nexttile;
 
 stairs(theta_estimate.Time, theta_estimate.Data(:, 1), ...
     'DisplayName', '\alpha_1 Estimate')
-yline(theta_star(1), '--', 'DisplayName', '\alpha_1 True')
+yline(theta_star(1), 'DisplayName', '\alpha_1 True')
 
 legend
 grid
-ylabel('\alpha_1')
-xlabel('Time Step')
 
 nexttile;
 
 stairs(theta_estimate.Time, theta_estimate.Data(:, 3), ...
     'DisplayName', '\beta_1 Estimate')
-yline(theta_star(3), '--', 'DisplayName', '\beta_1 True')
+yline(theta_star(3), 'DisplayName', '\beta_1 True')
 
 legend
 grid
-ylabel('\beta_1')
-xlabel('Time Step')
-title(t, 'Selected Parameter Estimates')
