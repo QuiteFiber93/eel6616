@@ -53,7 +53,7 @@ stairs(theta_estimate.Time, log(vecnorm(err, 2, 2).^2), ...
 grid
 xlabel('Time Step')
 ylabel('Log Error Norm')
-ylim([1.3, 1.5])
+% ylim([1.3, 1.5])
 title('All Time Steps')
 nexttile;
 
@@ -66,8 +66,7 @@ ylabel('Log Error Norm')
 title('Last 1000 Time Steps')
 title(t, "Normalized Gradient Parameter Estimation Error Norm")
 
-% TODO:
-% Plot two parameters
+
 figure
 t = tiledlayout(2, 1,'TileSpacing','tight','Padding','none');
 nexttile;
@@ -83,9 +82,9 @@ xlabel('Time Step')
 
 nexttile;
 
-stairs(theta_estimate.Time, theta_estimate.Data(:, 3), ...
+stairs(theta_estimate.Time, -theta_estimate.Data(:, 3), ...
     'DisplayName', '\beta_1 Estimate')
-yline(theta_star(3), '--', 'DisplayName', '\beta_1 True')
+yline(-theta_star(3), '--', 'DisplayName', '\beta_1 True')
 
 legend
 grid

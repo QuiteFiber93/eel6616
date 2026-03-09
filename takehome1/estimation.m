@@ -417,7 +417,7 @@ d = @(t) 0;
 theta0 = theta_star(0)*omega(0) + d(0);
 
 % Function to be passed into ode45
-ff = 0.5;
+ff = 1.5;
 estimator = @(t, x) recursive_ls(t, x, omega(t), ff, theta_star(t) * omega(t) + d(t));
 
 figure 
@@ -449,7 +449,7 @@ theta0 = theta_star(0)*omega(0) + d(0);
 
 % Function to be passed into ode45
 estimator = @(t, x) recursive_ls(t, x, omega(t), ff, theta_star(t) * omega(t) + d(t));
-
+rmse_vals = [];
 figure 
 hold on
 % Different values of P0 to try
@@ -457,9 +457,10 @@ for P0 = [2, 10]
 
     % Integrates to solve theta and plots
     [t, y] = ode45(estimator, tspan, [theta0; P0], opt);
+    rmse_vals = [rmse_vals, rmse(y(:, 1), theta_star(t))];
     plot(t, y(:, 1), 'DisplayName',['P0 = ', num2str(P0)])
 end
-
+rmse_vals
 % Plotting truth
 plot(t, theta_star(t), 'k', 'DisplayName','True')
 hold off

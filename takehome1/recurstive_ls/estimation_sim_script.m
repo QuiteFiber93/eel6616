@@ -2,7 +2,7 @@ clear; clc;
 lsEstimator = 'ls_estimator';
 
 P0s = [2, 10];
-lambdas = [0, 0.5, 1.5];
+lambdas = [0, 0.5, 1, 1.5, 2];
 
 Simulink.sdi.clear;
 
