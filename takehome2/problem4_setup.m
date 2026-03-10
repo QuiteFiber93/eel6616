@@ -1,8 +1,10 @@
 clear; clc; close all;
 
+% Loading Model to run
 modelname = 'problem4';
 load_system(modelname);
 
+% Model parameters
 alpha = [1.847E-4; 1.922E-4];
 beta = [0.8869; -1.8850];
 theta_star = [alpha; -beta]';
@@ -10,12 +12,15 @@ P0 = 100 * eye(4);
 g = 1;
 
 % Part (a)
+% Changing model stop time to 1000 time steps
 set_param(modelname, 'StopTime', '1000');
 
+% Plotting ln(|err|) on y-axis
 figure
 
 hold on
 for lambda = [1, 0.97]
+    % Looping through model for different FF to compare
     out = sim(modelname);
     theta_estimate = out.logsout.get('theta_rls').Values;
     err = theta_estimate.Data - theta_star;
@@ -34,16 +39,18 @@ xlabel('Time Step')
 ylabel('log(||\theta*(k) - \theta(k)||^2)')
 title('RLS Parameter Estimation Error Norm for Varied \lambda')
 
+saveas(gca, 'rls_p4.png', 'png')
+
 % Part (b)
+% Next part of problem wants 4000 time steps
 set_param(modelname, 'StopTime', '4000');
 
-
+% Running Model but this time we only care about the gradient estimator
 out = sim(modelname);
 theta_estimate = out.logsout.get('theta_grad').Values;
 err = theta_estimate.Data - theta_star;
 
-saveas(gca, 'rls_p4.png', 'png')
-
+% Plotting ln|err| for gradient estimator
 figure
 t = tiledlayout(2, 1,'TileSpacing','tight','Padding','none');
 nexttile;
@@ -54,7 +61,7 @@ stairs(theta_estimate.Time, log(vecnorm(err, 2, 2).^2), ...
 grid
 xlabel('Time Step')
 ylabel('log(||\theta*(k) - \theta(k)||^2)')
-% ylim([1.3, 1.5])
+ylim([1.3, 1.5])
 title('All Time Steps')
 
 nexttile;
@@ -70,7 +77,7 @@ title(t, "Normalized Gradient Parameter Estimation Error Norm")
 
 exportgraphics(t, 'grad_estiamte_logerr_p4.png', 'Resolution', 300)
 
-
+% Plotting two values, alpha_1 and beta_1 arbitrarily chosen
 figure
 t = tiledlayout(2, 1,'TileSpacing','tight','Padding','none');
 nexttile;
