@@ -18,8 +18,6 @@ y = out.logsout.get('y').Values;
 
 % Plotting the results
 figure
-t = tiledlayout(2, 1,'TileSpacing','tight','Padding','none');
-nexttile;
 
 hold on
 stairs(theta_estimate.Time, theta_estimate.Data(:, 1), ...
@@ -40,7 +38,9 @@ title('Parameter Estimates');
 legend('Location','east')
 grid
 
-nexttile;
+
+saveas(gca, 'parameter_estimates_p3.png', 'png')
+figure
 stairs(y.Time, y.Data, 'DisplayName', 'y')
 
 xlabel('Time Steps')
@@ -48,6 +48,8 @@ ylabel('Output')
 ylim([0, 1.1])
 title('y(k)')
 grid
+
+saveas(gca, 'yk_p3.png', 'png')
 
 figure
 t = tiledlayout(2, 1,'TileSpacing','tight','Padding','none');
@@ -94,3 +96,5 @@ title('\lambda = 0.9')
 
 xlabel('Time Step')
 ylabel('log(||\theta*(k) - \theta(k)||^2)')
+
+exportgraphics(t, 'forgetting_factor_p3.png', 'Resolution', 300)

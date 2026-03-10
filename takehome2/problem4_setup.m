@@ -27,7 +27,6 @@ for lambda = [1, 0.97]
     err(end, :)
 end
 hold off
-theta_star
 
 grid
 legend
@@ -43,6 +42,8 @@ out = sim(modelname);
 theta_estimate = out.logsout.get('theta_grad').Values;
 err = theta_estimate.Data - theta_star;
 
+saveas(gca, 'rls_p4.png', 'png')
+
 figure
 t = tiledlayout(2, 1,'TileSpacing','tight','Padding','none');
 nexttile;
@@ -52,9 +53,10 @@ stairs(theta_estimate.Time, log(vecnorm(err, 2, 2).^2), ...
 
 grid
 xlabel('Time Step')
-ylabel('Log Error Norm')
+ylabel('log(||\theta*(k) - \theta(k)||^2)')
 % ylim([1.3, 1.5])
 title('All Time Steps')
+
 nexttile;
 
 stairs(theta_estimate.Time(end-999:end, :), log(vecnorm(err(end-999:end, :), 2, 2).^2), ...
@@ -62,9 +64,11 @@ stairs(theta_estimate.Time(end-999:end, :), log(vecnorm(err(end-999:end, :), 2, 
 
 grid
 xlabel('Time Step')
-ylabel('Log Error Norm')
+ylabel('log(||\theta*(k) - \theta(k)||^2)')
 title('Last 1000 Time Steps')
 title(t, "Normalized Gradient Parameter Estimation Error Norm")
+
+exportgraphics(t, 'grad_estiamte_logerr_p4.png', 'Resolution', 300)
 
 
 figure
@@ -91,3 +95,5 @@ grid
 ylabel('\beta_1')
 xlabel('Time Step')
 title(t, 'Selected Parameter Estimates')
+
+exportgraphics(t, 'grad_estimate_param_p4.png', 'Resolution', 300)
