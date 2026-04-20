@@ -1,5 +1,19 @@
 clear; clc; close all;
 
+% setting up for part (a)
+np = [1 1];
+dp= [1 0 1];
+load_system('problem2');
+
+% nominal values of parameters for (a)
+c0star = 1;
+cstar = 2;
+d0star = -6;
+dstar = 14;
+
+set_param('problem2/P(s)', 'Numerator', mat2str(np));
+set_param('problem2/P(s)', 'Denominator', mat2str(dp));
+
 out = sim('problem2.slx');
 
 % plot error
@@ -21,21 +35,104 @@ figure('Position', [100, 100, 800, 900]);
 t = tiledlayout(4, 1, 'TileSpacing', 'compact', 'Padding', 'compact');
 
 nexttile;
-plot(out.tout, c0); title('c_0'); xlabel('Time (s)'); grid on;
+plot(out.tout, c0, 'DisplayName', 'c_0');
+yline(c0star, '--k', 'DisplayName', 'c_0^*')
+title('c_0');
+xlabel('Time (s)');
+legend;
+grid on;
+
 
 nexttile;
-plot(out.tout, c); title('c'); xlabel('Time (s)'); grid on;
+plot(out.tout, c, 'DisplayName', 'c');
+yline(cstar, '--k', 'DisplayName', 'c^*')
+title('c');
+xlabel('Time (s)');
+legend;
+grid on;
 
 nexttile;
-plot(out.tout, d0); title('d_0'); xlabel('Time (s)'); grid on;
+plot(out.tout, d0, 'DisplayName', 'd_0');
+yline(d0star, '--k', 'DisplayName', 'd_0^*')
+title('c_0');
+xlabel('Time (s)');
+legend;
+grid on;
 
 nexttile;
-plot(out.tout, d); title('d'); xlabel('Time (s)'); grid on;
+plot(out.tout, d, 'DisplayName', 'd');
+yline(dstar, '--k', 'DisplayName', 'd^*')
+title('d');
+xlabel('Time (s)');
+legend;
+grid on;
 
 title(t, 'Adaptive Parameters');
 
-% flip manual switch 
-% sim problem2.slx
+% setting up for part (b)
+np = [1 3];
+dp= [1 -2 1];
+
+% nominal values of parameters for (a)
+c0star = 1;
+cstar = 0;
+d0star = -8;
+dstar = 20;
+
+set_param('problem2/P(s)', 'Numerator', mat2str(np));
+set_param('problem2/P(s)', 'Denominator', mat2str(dp));
+
+out = sim('problem2.slx');
+
+% plot error
+figure;
+plot(out.logsout.get('err').Values);
+title('Error Signal');
+xlabel('Time (s)');
+ylabel('Error');
+grid on;
 
 % plot parameters c0, c, d, d0
-% extracting parameters (in that order) from logged signal theta
+theta = out.logsout.get('theta').Values.Data;
+c0 = theta(:,1);
+c  = theta(:,2);
+d  = theta(:,3);
+d0 = theta(:,4);
+
+figure('Position', [100, 100, 800, 900]);
+t = tiledlayout(4, 1, 'TileSpacing', 'compact', 'Padding', 'compact');
+
+nexttile;
+plot(out.tout, c0, 'DisplayName', 'c_0');
+yline(c0star, '--k', 'DisplayName', 'c_0^*')
+title('c_0');
+xlabel('Time (s)');
+legend;
+grid on;
+
+
+nexttile;
+plot(out.tout, c, 'DisplayName', 'c');
+yline(cstar, '--k', 'DisplayName', 'c^*')
+title('c');
+xlabel('Time (s)');
+legend;
+grid on;
+
+nexttile;
+plot(out.tout, d0, 'DisplayName', 'd_0');
+yline(d0star, '--k', 'DisplayName', 'd_0^*')
+title('c_0');
+xlabel('Time (s)');
+legend;
+grid on;
+
+nexttile;
+plot(out.tout, d, 'DisplayName', 'd');
+yline(dstar, '--k', 'DisplayName', 'd^*')
+title('d');
+xlabel('Time (s)');
+legend;
+grid on;
+
+title(t, 'Adaptive Parameters');
