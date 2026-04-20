@@ -20,9 +20,10 @@ out = sim('problem2.slx');
 figure;
 plot(out.logsout.get('err').Values);
 title('Error Signal');
-xlabel('Time (s)');
+xlabel('Time Step');
 ylabel('Error');
 grid on;
+exportgraphics(gcf, 'output_err_a.png', 'ContentType', 'image', 'Resolution', 300);
 
 % plot parameters c0, c, d, d0
 theta = out.logsout.get('theta').Values.Data;
@@ -38,7 +39,7 @@ nexttile;
 plot(out.tout, c0, 'DisplayName', 'c_0');
 yline(c0star, '--k', 'DisplayName', 'c_0^*')
 title('c_0');
-xlabel('Time (s)');
+xlabel('Time Step');
 legend;
 grid on;
 
@@ -47,15 +48,15 @@ nexttile;
 plot(out.tout, c, 'DisplayName', 'c');
 yline(cstar, '--k', 'DisplayName', 'c^*')
 title('c');
-xlabel('Time (s)');
+xlabel('Time Step');
 legend;
 grid on;
 
 nexttile;
 plot(out.tout, d0, 'DisplayName', 'd_0');
 yline(d0star, '--k', 'DisplayName', 'd_0^*')
-title('c_0');
-xlabel('Time (s)');
+title('d_0');
+xlabel('Time Step');
 legend;
 grid on;
 
@@ -63,11 +64,13 @@ nexttile;
 plot(out.tout, d, 'DisplayName', 'd');
 yline(dstar, '--k', 'DisplayName', 'd^*')
 title('d');
-xlabel('Time (s)');
+xlabel('Time Step');
 legend;
 grid on;
 
 title(t, 'Adaptive Parameters');
+
+exportgraphics(gcf, 'param_a.png', 'ContentType', 'image', 'Resolution', 300);
 
 % setting up for part (b)
 np = [1 3];
@@ -88,9 +91,11 @@ out = sim('problem2.slx');
 figure;
 plot(out.logsout.get('err').Values);
 title('Error Signal');
-xlabel('Time (s)');
+xlabel('Time Step');
 ylabel('Error');
 grid on;
+
+exportgraphics(gcf, 'output_err_b.png', 'ContentType', 'image', 'Resolution', 300);
 
 % plot parameters c0, c, d, d0
 theta = out.logsout.get('theta').Values.Data;
@@ -106,7 +111,7 @@ nexttile;
 plot(out.tout, c0, 'DisplayName', 'c_0');
 yline(c0star, '--k', 'DisplayName', 'c_0^*')
 title('c_0');
-xlabel('Time (s)');
+xlabel('Time Step');
 legend;
 grid on;
 
@@ -115,15 +120,15 @@ nexttile;
 plot(out.tout, c, 'DisplayName', 'c');
 yline(cstar, '--k', 'DisplayName', 'c^*')
 title('c');
-xlabel('Time (s)');
+xlabel('Time Step');
 legend;
 grid on;
 
 nexttile;
 plot(out.tout, d0, 'DisplayName', 'd_0');
 yline(d0star, '--k', 'DisplayName', 'd_0^*')
-title('c_0');
-xlabel('Time (s)');
+title('d_0');
+xlabel('Time Step');
 legend;
 grid on;
 
@@ -131,8 +136,10 @@ nexttile;
 plot(out.tout, d, 'DisplayName', 'd');
 yline(dstar, '--k', 'DisplayName', 'd^*')
 title('d');
-xlabel('Time (s)');
+xlabel('Time Step');
 legend;
 grid on;
 
 title(t, 'Adaptive Parameters');
+
+exportgraphics(gcf, 'param_b.png', 'ContentType', 'image', 'Resolution', 300);
