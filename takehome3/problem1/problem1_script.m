@@ -31,7 +31,7 @@ ylabel('Output Error');
 title('Model vs Plant Output');
 grid on;
 
-exportgraphics(gcf, 'output_sigma001.png', 'Resolution', 150);
+exportgraphics(gcf, 'output_sigma001.png', 'Resolution', 300);
 
 % Plot u vs t
 figure;
@@ -41,7 +41,7 @@ ylabel('u');
 title('Control Input');
 grid on;
 
-exportgraphics(gcf, 'u_sigma001.png');
+exportgraphics(gcf, 'u_sigma001.png', 'Resolution', 300);
 
 % Plot b and a estimates
 figure;
@@ -63,7 +63,7 @@ legend('Location','east', 'Interpreter','latex')
 title('$\hat{a}$ Estimate', 'Interpreter', 'latex');
 grid on;
 
-exportgraphics(gcf, 'param_sigma001.png');
+exportgraphics(gcf, 'param_sigma001.png', 'Resolution', 300);
 
 
 % Rerunning sim with sigma = 1
@@ -97,7 +97,7 @@ ylabel('Output Error');
 title('Model vs Plant Output (\sigma = 1)');
 grid on;
 
-exportgraphics(gcf, 'output_sigma100.png');
+exportgraphics(gcf, 'output_sigma100.png', 'Resolution', 300);
 
 % Plot u vs t
 figure;
@@ -107,7 +107,7 @@ ylabel('u');
 title('Control Input (\sigma = 1)');
 grid on;
 
-exportgraphics(gcf, 'u_sigma100.png');
+exportgraphics(gcf, 'u_sigma100.png', 'Resolution', 300);
 % Plot b and a estimates
 figure;
 subplot(2,1,1);
@@ -128,4 +128,4 @@ legend('Location','east', 'Interpreter','latex')
 title('$\hat{a}$ Estimate $(\sigma = 1)$', 'Interpreter', 'latex');
 grid on;
 
-exportgraphics(gcf, 'param_sigma100.png');
+exportgraphics(gcf, 'param_sigma100.png', 'Resolution', 300);
