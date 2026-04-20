@@ -51,7 +51,7 @@ yline(0.0952, '--k', 'DisplayName', 'True b')
 xlabel('Time steps');
 ylabel('$\hat{b}$', 'Interpreter', 'latex');
 title('$\hat{b}$ Estimate', 'Interpreter', 'latex');
-legend('Location','east')
+legend('Location','east', 'Interpreter','latex')
 grid on;
 
 subplot(2,1,2);
@@ -59,7 +59,7 @@ stairs(a_hat.Time, a_hat.Data, 'r', 'DisplayName', '$\hat{a}$');
 yline(0.9048, '--k', 'DisplayName', 'True a')
 xlabel('Time steps');
 ylabel('$\hat{a}$', 'Interpreter', 'latex');
-legend('Location','east')
+legend('Location','east', 'Interpreter','latex')
 title('$\hat{a}$ Estimate', 'Interpreter', 'latex');
 grid on;
 
@@ -116,7 +116,7 @@ yline(0.0952, '--k', 'DisplayName', 'True b')
 xlabel('Time steps');
 ylabel('$\hat{b}$', 'Interpreter', 'latex');
 title('$\hat{b}$ Estimate $(\sigma = 1)$', 'Interpreter', 'latex');
-legend('Location','east')
+legend('Location','east', 'Interpreter','latex')
 grid on;
 
 subplot(2,1,2);
@@ -124,7 +124,7 @@ stairs(a_hat.Time, a_hat.Data, 'r', 'DisplayName', '$\hat{a}$');
 yline(0.9048, '--k', 'DisplayName', 'True a')
 xlabel('Time steps');
 ylabel('$\hat{a}$', 'Interpreter', 'latex');
-legend('Location','east')
+legend('Location','east', 'Interpreter','latex')
 title('$\hat{a}$ Estimate $(\sigma = 1)$', 'Interpreter', 'latex');
 grid on;
 
